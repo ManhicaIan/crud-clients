@@ -4,6 +4,7 @@ import com.manhica.crud_clients.dto.ClientDTO;
 import com.manhica.crud_clients.entities.Client;
 import com.manhica.crud_clients.repositories.ClientRepository;
 import com.manhica.crud_clients.services.exceptions.ResourceNotFoundException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,8 +38,20 @@ public class ClientService {
         return new ClientDTO(client);
     }
 
+    @Transactional
+    public ClientDTO update(Long id, ClientDTO dto){
+        try {
+            Client client = repository.getReferenceById(id);
+            copyDtoToEntity(client, dto);
+            client = repository.save(client);
+            return new ClientDTO(client);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Client not found");
+        }
+    }
+
+
     private void copyDtoToEntity(Client client, ClientDTO dto){
-        client.setId(dto.getId());
         client.setName(dto.getName());
         client.setCpf(dto.getCpf());
         client.setIncome(dto.getIncome());
