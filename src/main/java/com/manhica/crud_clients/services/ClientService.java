@@ -3,6 +3,7 @@ package com.manhica.crud_clients.services;
 import com.manhica.crud_clients.dto.ClientDTO;
 import com.manhica.crud_clients.entities.Client;
 import com.manhica.crud_clients.repositories.ClientRepository;
+import com.manhica.crud_clients.services.exceptions.ResourceNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -19,6 +20,13 @@ public class ClientService {
     public Page<ClientDTO> getAll(Pageable pageable){
         Page<Client> clients = repository.findAll(pageable);
         return clients.map(client -> new ClientDTO(client));
+    }
+
+    @Transactional(readOnly = true)
+    public ClientDTO getById(Long id){
+        Client client = repository.findById(id).
+                orElseThrow(() -> new ResourceNotFoundException("Client not found"));
+        return new ClientDTO(client);
     }
 
 }
