@@ -1,6 +1,7 @@
 package com.manhica.crud_clients.dto;
 
 
+import com.manhica.crud_clients.entities.Client;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,12 @@ public class ClientDTO {
 
     private int children;
 
+    public ClientDTO(Client client) {
+        this.id = client.getId();
+        this.name = client.getName();
+        this.cpf = client.getCpf();
+        this.income = client.getIncome();
+        this.birthDate = client.getBirthDate();
+        this.children = client.getChildren();
+    }
 }
