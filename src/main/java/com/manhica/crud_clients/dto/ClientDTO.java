@@ -2,6 +2,8 @@ package com.manhica.crud_clients.dto;
 
 
 import com.manhica.crud_clients.entities.Client;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.PastOrPresent;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,12 +20,14 @@ public class ClientDTO {
 
     private Long id;
 
+    @NotBlank
     private String name;
 
     private String cpf;
 
     private double income;
 
+    @PastOrPresent
     private LocalDate birthDate;
 
     private int children;
