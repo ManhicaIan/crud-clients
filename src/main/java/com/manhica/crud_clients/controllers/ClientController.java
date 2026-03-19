@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping(value = "/clients")
@@ -22,6 +23,10 @@ public class ClientController {
     @GetMapping
     public ResponseEntity<Page<ClientDTO>> getAll(Pageable pageable){
         return ResponseEntity.ok(service.getAll(pageable));
+    }
+    @GetMapping("/search")
+    public ResponseEntity<List<ClientDTO>> searchByName(@RequestParam String name){
+        return ResponseEntity.ok(service.searchByName(name));
     }
 
     @GetMapping(value = "/{id}")
